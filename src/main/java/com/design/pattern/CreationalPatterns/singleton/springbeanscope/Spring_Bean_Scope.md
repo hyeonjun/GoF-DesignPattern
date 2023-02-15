@@ -67,4 +67,30 @@
     - session: HTTP 세션과 동일한 생명주기를 가지는 스코프
     - application: 웹의 서블릿 컨텍스트와 같은 범위로 유지되는 스코프
     - websocket: 웹 소켓과 같은 생명 주기를 가지는 스코프
+  
   스프링 빈 등록 시 웹 스코프를 그대로 주입받으면 오류가 발생한다. 싱글톤 빈은 스프링 컨테이너 생성 시 함께 생성되어서 라이프 사이클을 같이 하지만, 
+  웹 스코프(여기서는 Request Scope)의 경우 HTTP 요청이 올 때 새로 생성되고 응답하면 사라지기 때문에 싱글톤 빈이 생성되는 시점에는 아직 생성되지 않음.
+  그래서 의존관계 주입이 불가능하다. 이러한 문제를 해결하기 위해서는 어떻게 할 수 있을까?
+    - 프록시 사용
+      ```java
+      @Component
+      @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
+      public class MyLogger {  }
+      ```
+      - @Scope 속성에 proxyMode = ScopedProxyMode.TARGET_CLASS를 추가
+        - 적용 대상이 클래스면 TARGET_CLASS, 인터페이스면 INTERFACES 선택
+      - 이렇게 하면 MyLogger의 가짜 프록시 클래스를 만들어둘 수 있고, HTTP Request와 상관없이 가짜 프록시 클래스를 다르 빈에 미리 주입해 둘 수 있음
+      - Scope의 proxyMode = ScopedProxyMode.TARGET_CLASS를 설정하면 스프링 컨테이너는 **CGLIB**라는 바이트코드 조각 라이브러리를 사용해서,
+        해당 웹 스코프 빈 클래스를 상속하는 가짜 프록시 객체를 생성한다.
+      - 결과를 보면 내가 등록한 순수 자바 클래스 빈이 아니라 가짜 프록시 객체가 등록된 것을 알 수 있다.
+      - 스프링 컨테이너에 우너래 만들었던 진짜 클래스 이름으로(첫 문자 소문자, 빈 이름 규칙 -> myLogger) 진짜 대신에 이 가짜 프록시 객체를 등록
+      - applicationContext.getBean("myLogger", MyLogger.class)로 조회해도 프록시 객체가 조회된다.
+      - 그래서 의존 관계 주입도 이 가짜 프록시 객체가 주입된다.
+      
+        ![img.png](proxy.png)
+      
+      - 가짜 프록시 객체는 요청이 오면 그때 내부에서 진짜 빈을 요청하는 위임 로직이 들어있다.
+      - 가짜 프록시 객체는 내부에 진짜 myLogger 빈을 찾는 방법을 알고 있음
+      - 클라이언트가 myLogger.logic()을 호출하면 가짜 프록시 객체의 메소드를 호출한 것이다.
+      - 가짜 프록시 객체는 request 스코프의 진짜 myLogger.logic()을 호출한다.
+      - 가짜 프록시 객체는 원본 클래스를 상속받아서 만들어졌기 때문에 이 객체를 사용하는 클라이언트 입장에서는 원본인지 아닌지 모르지만, 동일하게 사용할 수 있다(다형성)
