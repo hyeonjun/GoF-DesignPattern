@@ -18,7 +18,7 @@
 
 # 빌터 패턴
 - Java 8 Stream.Builder API
-- StringBuilder는 빌더 패턴일까?
+- StringBuilder
 - 롬복의 @Builder
   - https://projectlombok.org/features/Builder
 - 스프링

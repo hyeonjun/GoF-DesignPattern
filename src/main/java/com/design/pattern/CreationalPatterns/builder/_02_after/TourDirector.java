@@ -12,7 +12,8 @@ public class TourDirector {
   }
 
   public TourPlan cancunTrip() {
-    return tourPlanBuilder.title("칸쿤 여행") // chain을 걸 수 있는 이유는 해당 메소드들이 전부 같은 리턴 타입이기 때문
+    return tourPlanBuilder.newInstance()
+      .title("칸쿤 여행") // chain을 걸 수 있는 이유는 해당 메소드들이 전부 같은 리턴 타입이기 때문
       .nightsAndDays(2, 3)
       .startDate(LocalDate.of(2020, 12, 9))
       .whereToStay("리조트")
@@ -22,7 +23,8 @@ public class TourDirector {
   }
 
   public TourPlan longBeachTrip() {
-    return tourPlanBuilder.title("롱비치")
+    return tourPlanBuilder.newInstance()
+      .title("롱비치")
       .startDate(LocalDate.of(2021, 7, 15))
       .getPlan();
   }
