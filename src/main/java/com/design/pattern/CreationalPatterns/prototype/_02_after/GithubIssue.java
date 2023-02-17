@@ -43,6 +43,21 @@ public class GithubIssue implements Cloneable {
 
   @Override
   protected Object clone() throws CloneNotSupportedException {
+    // Deep Copy
+    /*
+    GithubRepository repository = new GithubRepository();
+    repository.setUser(this.repository.getUser());
+    repository.setName(this.repository.getName());
+
+    GithubIssue issue = new GithubIssue(repository);
+    issue.setId(this.id);
+    issue.setTitle(this.title);
+    return issue;
+    */
+    // clone != issue => true
+    // clone.equals(issue) => false
+    // clone.getClass() == issue.getClass() => true
+    // clone.getRepository() == issue.getRepository(); => false
     return super.clone();
   }
 

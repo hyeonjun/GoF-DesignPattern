@@ -21,5 +21,8 @@ public class App {
     System.out.println(clone != issue); // true
     System.out.println(clone.equals(issue)); // true
     System.out.println(clone.getClass() == issue.getClass()); // true
+
+    // Shallow Copy
+    System.out.println(clone.getRepository() == issue.getRepository()); // true
   }
 }
