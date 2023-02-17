@@ -24,5 +24,6 @@ public class App {
     // 주의
     // 1. clone != issue -> true => clone은 새로운 인스턴스임
     // 2. clone.equals(issue) -> true => 값은 같아야함
+    // 3. clone.getClass() == issue.getClass() -> true => 같은 클래스임
   }
 }
