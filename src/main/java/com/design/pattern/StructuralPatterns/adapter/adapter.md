@@ -12,3 +12,12 @@
 - 단점
   - 새 클래스가 생겨 복잡도가 증가할 수 있다. 
     - 경우에 따라서는 기존 코드가 해당 인터페이스를 구현하도록 수정하는 것이 좋은 선택이 될 수도 있다. -> 이 경우에는 SRP에 위배될 수 있음
+
+### 어댑터 패턴
+- 자바
+  - java.util.Arrays#asList(T...)
+  - java.util.Collections#list(Enumeration), java.util.Collections#enumeration()
+  - java.io.InputStreamReader(InputStream)
+  - java.io.OutputStreamWriter(OutputStream
+- 스프링
+- HandlerAdapter: 우리가 작성하는 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있는 형태로 변환해주는 어댑터용 인터페이스.
