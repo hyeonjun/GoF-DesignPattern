@@ -1,4 +1,4 @@
-package com.design.pattern.StructuralPatterns.decorator._01_before._01_before;
+package com.design.pattern.StructuralPatterns.decorator._01_before;
 
 public class SpamFilteringCommentService extends CommentService {
 
