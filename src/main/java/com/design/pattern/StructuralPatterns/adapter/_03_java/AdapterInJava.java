@@ -23,6 +23,7 @@ public class AdapterInJava {
     try(InputStream is = new FileInputStream("input.txt"); // 문자열 -> InputStream
       InputStreamReader isr = new InputStreamReader(is); // InputStream -> InputStreamReader
       BufferedReader reader = new BufferedReader(isr)) { // InputStreamReader -> BufferedReader
+      // 위처럼 다른 타입이 다른 타입을 감싸는 것 => Decorator Pattern로 볼 수도 있음
       while (reader.ready()) {
         System.out.println(reader.readLine());
       }
