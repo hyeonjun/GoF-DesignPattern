@@ -17,6 +17,6 @@
 - 자바
   - InputStream, OutputStream, Reader, Writer의 생성자를 활용한 랩퍼
   - java.util.Collections가 제공하는 메소드를 활용한 랩퍼
-  - javax.servlet.http.HttpServletReqeust/ResponseWrapper
+  - javax.servlet.http.HttpServletRequest/ResponseWrapper
 - 스프링
   - ServerHttpRequestDecorator
