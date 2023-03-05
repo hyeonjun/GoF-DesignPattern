@@ -1,14 +1,17 @@
 package com.design.pattern.StructuralPatterns.proxy._02_after;
 
-import com.design.pattern.StructuralPatterns.proxy._01_before.GameService;
+public class GameServiceProxy implements GameService {
 
-public class GameServiceProxy extends GameService {
+  private GameService gameService;
+
+  public GameServiceProxy(GameService gameService) {
+    this.gameService = gameService;
+  }
 
   @Override
-  public void startGame() throws InterruptedException {
+  public void startGame() {
     long before = System.currentTimeMillis();
-    super.startGame();
-    long after = System.currentTimeMillis();
-    System.out.println(after - before);
+    gameService.startGame();
+    System.out.println(System.currentTimeMillis() - before);
   }
 }
